@@ -1,39 +1,22 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import './App.css';
+import { Greet } from './components/Greet'
+import Welcome from './components/Welcome'
+import Message from './components/Message'
+import Api from './components/Api'
 
-class App extends Component {
+function App() {
+  return (
+    <div className="App">
+      <Greet />
+      <Welcome coin="Bitcoin" ticker="BTC" />
+      <Welcome coin="Ethereum" ticker="ETH" />
+      <Welcome coin="Electroneum" ticker="ETN" />
+      <Message />
+      <Api />
+    </div>
 
-state = {
-	loading: true,
-	person: null,
-	}
-
-	async componentDidMount() {
-		const url = "https://api.randomuser.me/";
-		const response = await fetch(url);
-		const data = await response.json();
-		this.setState({person: data.results[0], loading: false });		
-		console.log(data);
-	}
-
-	render() {
-		if(this.state.loading) {
-			return <div>loading...</div>;
-		}
-
-		if(!this.state.person) {
-			return <div>didn't get a person</div>
-		}
-
-		return (			
-				<div>
-					<div>{this.state.person.name.abstract}</div>
-					<div>{this.state.person.name.first}</div>
-					<div>{this.state.person.name.last}</div>
-					<img src={this.state.person.picture.large} /><br />
-					<a href="javascript:location.reload(true)">View next person</a>
-				</div>			
-			);
-		}	
+  );
 }
 
 export default App;
