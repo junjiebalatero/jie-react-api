@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+state = {
+	loading: true,
+	person: null,
+	}
+
+	async componentDidMount() {
+		const url = "https://api.randomuser.me/";
+		const response = await fetch(url);
+		const data = await response.json();
+		this.setState({person: data.results[0], loading: false });		
+		console.log(data);
+	}
+
+	render() {
+		if(this.state.loading) {
+			return <div>loading...</div>;
+		}
+
+		if(!this.state.person) {
+			return <div>didn't get a person</div>
+		}
+
+		return (			
+				<div>
+					<div>{this.state.person.name.abstract}</div>
+					<div>{this.state.person.name.first}</div>
+					<div>{this.state.person.name.last}</div>
+					<img src={this.state.person.picture.large} /><br />
+					<a href="javascript:location.reload(true)">View next person</a>
+				</div>			
+			);
+		}	
 }
 
 export default App;
